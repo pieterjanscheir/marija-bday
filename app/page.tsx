@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import Confetti from 'react-confetti'
 
-type Language = 'en' | 'no' | 'sr' | 'nl'
+type Language = 'en' | 'no' | 'sr' | 'nl' | 'uk'
 
 const translations = {
 	en: {
@@ -168,6 +168,46 @@ const translations = {
 		oslo: '📍 Oslo, Noorwegen',
 		whatsappMessage: 'Hallo Marija! 💕 Ik heb een vraag over je verjaardagsfeest. Hoop je snel te zien! 🎉',
 	},
+	uk: {
+		youreInvited: '✨ Ти запрошений ✨',
+		birthday: 'День народження',
+		subtitle:
+			'Приєднуйся до нас на магічний вечір святкування! Я так сумую за тобою, Олексе, і дуже рада, що ти приїдеш на мій день народження! 🎂💖✨',
+		partyCountdown: 'Зворотний відлік до вечірки',
+		days: 'Днів',
+		hours: 'Годин',
+		minutes: 'Хвилин',
+		seconds: 'Секунд',
+		when: 'Коли',
+		where: 'Де',
+		doorbell: 'Дзвінок',
+		doorbellInfo: 'Дзвони: 3.Høyre',
+		dresscode: 'Дрес-код',
+		dresscodeInfo: 'Казуальний і милий 👗✨',
+		drinks: 'Напої',
+		drinksInfo: 'Принеси свої напої! 🥤',
+		gifts: 'Подарунки',
+		giftsInfo: 'Без подарунків, будь ласка, тільки напої! 💕',
+		casualParty: 'Казуальна і мила вечірка 🎀',
+		findYourWay: 'Знайди дорогу сюди',
+		getDirections: 'Отримай маршрут до вечірки!',
+		googleMaps: 'Google Maps',
+		waze: 'Waze',
+		saveTheDate: 'Збережи дату 📅💖',
+		addToCalendar: 'Додай цю вечірку до свого календаря!',
+		googleCalendar: 'Google Календар',
+		appleCalendar: 'Apple Календар',
+		musicAndContact: 'Музика і Контакти 🎵💬',
+		playlistTitle: 'Плейлист вечірки',
+		playlistSubtitle: 'Слухай наш підібраний плейлист і додавай свої улюблені пісні!',
+		contactHost: "Зв'язатися з господарем",
+		contactSubtitle: 'Маєш питання або потрібна додаткова інформація? Напиши Марії!',
+		messageHost: 'Написати в WhatsApp 💬',
+		cantWait: 'Не можу дочекатися святкувати з тобою, дорогий Олексе! 🎉💕',
+		magical: 'Давай зробимо цей день народження по-справжньому магічним! ✨🎂',
+		oslo: '📍 Осло, Норвегія',
+		whatsappMessage: 'Привіт Маріє! 💕 У мене є питання про твій день народження. Сподіваюся побачитися скоро! 🎉',
+	},
 }
 
 export default function BirthdayParty() {
@@ -222,10 +262,12 @@ export default function BirthdayParty() {
 		dateNo: 'Fredag, 15. august',
 		dateSr: 'Petak, 15. avgust',
 		dateNl: 'Vrijdag, 15 augustus',
+		dateUk: "П'ятниця, 15 серпня",
 		time: '7:30 PM',
 		timeNo: '19:30',
 		timeSr: '19:30',
 		timeNl: '19:30',
+		timeUk: '19:30',
 		address: 'Professor Dahls gate 7B, 0355 Oslo',
 		phone: '+47 939 40 056',
 	}
@@ -238,6 +280,8 @@ export default function BirthdayParty() {
 				return partyDetails.dateSr
 			case 'nl':
 				return partyDetails.dateNl
+			case 'uk':
+				return partyDetails.dateUk
 			default:
 				return partyDetails.date
 		}
@@ -251,6 +295,8 @@ export default function BirthdayParty() {
 				return partyDetails.timeSr
 			case 'nl':
 				return partyDetails.timeNl
+			case 'uk':
+				return partyDetails.timeUk
 			default:
 				return partyDetails.time
 		}
@@ -394,6 +440,8 @@ END:VCALENDAR`
 				return '🇷🇸 SR'
 			case 'nl':
 				return '🇧🇪 NL'
+			case 'uk':
+				return '🇺🇦 UK'
 			default:
 				return lang as Language
 		}
@@ -425,7 +473,7 @@ END:VCALENDAR`
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 0.5, duration: 0.6 }}
 			>
-				{(['en', 'no', 'sr', 'nl'] as Language[]).map((lang) => (
+				{(['en', 'no', 'sr', 'nl', 'uk'] as Language[]).map((lang) => (
 					<motion.button
 						key={lang}
 						variants={languageButtonVariants}
@@ -663,30 +711,6 @@ END:VCALENDAR`
 									<p className='text-slate-700 font-semibold'>{t.giftsInfo}</p>
 								</motion.div>
 							</div>
-
-							{/* Style Badge */}
-							{/* <motion.div
-								className='flex justify-center pt-8 border-t border-pink-200'
-								variants={floatingVariants}
-								animate='animate'
-							>
-								<div className='inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-pink-100 to-rose-100 shadow-lg border border-pink-200'>
-									<div className='w-3 h-3 rounded-full bg-pink-500 animate-pulse' />
-									<AnimatePresence mode='wait'>
-										<motion.span
-											key={`badge-${language}`}
-											className='text-lg font-bold text-slate-700'
-											initial={{ opacity: 0 }}
-											animate={{ opacity: 1 }}
-											exit={{ opacity: 0 }}
-											transition={{ duration: 0.3 }}
-										>
-											{t.casualParty}
-										</motion.span>
-									</AnimatePresence>
-									<div className='w-3 h-3 rounded-full bg-pink-500 animate-pulse' />
-								</div>
-							</motion.div> */}
 						</CardContent>
 					</Card>
 				</motion.div>
