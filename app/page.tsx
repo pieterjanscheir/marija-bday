@@ -1,14 +1,101 @@
 'use client'
 
-import { Calendar, MapPin, MessageCircle, Clock, ArrowUpRight, Navigation, Heart } from 'lucide-react'
+import { Calendar, MapPin, MessageCircle, Clock, ArrowUpRight, Navigation, Heart, Globe } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { motion } from 'motion/react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import Confetti from 'react-confetti'
 
+type Language = 'en' | 'no' | 'sr'
+
+const translations = {
+	en: {
+		youreInvited: "✨ You're Invited ✨",
+		birthday: 'Birthday',
+		subtitle: 'Join us for a magical evening of celebration 🎂💖',
+		partyCountdown: 'Party Countdown',
+		days: 'Days',
+		hours: 'Hours',
+		minutes: 'Minutes',
+		seconds: 'Seconds',
+		when: 'When',
+		where: 'Where',
+		casualParty: 'Casual & Cute Party 🎀',
+		findYourWay: 'Find Your Way Here',
+		getDirections: 'Get directions to the party!',
+		googleMaps: 'Google Maps',
+		waze: 'Waze',
+		saveTheDate: 'Save the Date 📅💖',
+		addToCalendar: 'Add this party to your calendar and message the host!',
+		googleCalendar: 'Google Calendar',
+		appleCalendar: 'Apple Calendar',
+		messageHost: 'Message Host 💬',
+		cantWait: "Can't wait to celebrate with you! 🎉💕",
+		magical: "Let's make this birthday absolutely magical! ✨🎂",
+		oslo: '📍 Oslo, Norway',
+		whatsappMessage:
+			"Hi! 💕 I'm interested in attending Marija's birthday party on {date} at {time}. Could you share more details? 🎉",
+	},
+	no: {
+		youreInvited: '✨ Du er invitert ✨',
+		birthday: 'Bursdag',
+		subtitle: 'Bli med oss for en magisk kveld med feiring 🎂💖',
+		partyCountdown: 'Nedtelling til fest',
+		days: 'Dager',
+		hours: 'Timer',
+		minutes: 'Minutter',
+		seconds: 'Sekunder',
+		when: 'Når',
+		where: 'Hvor',
+		casualParty: 'Avslappet & Søt fest 🎀',
+		findYourWay: 'Finn veien hit',
+		getDirections: 'Få veibeskrivelse til festen!',
+		googleMaps: 'Google Maps',
+		waze: 'Waze',
+		saveTheDate: 'Lagre datoen 📅💖',
+		addToCalendar: 'Legg denne festen til i kalenderen din og send melding til verten!',
+		googleCalendar: 'Google Kalender',
+		appleCalendar: 'Apple Kalender',
+		messageHost: 'Send melding til vert 💬',
+		cantWait: 'Kan ikke vente med å feire med deg! 🎉💕',
+		magical: 'La oss gjøre denne bursdagen helt magisk! ✨🎂',
+		oslo: '📍 Oslo, Norge',
+		whatsappMessage:
+			'Hei! 💕 Jeg er interessert i å delta på Marijas bursdagsfest {date} klokka {time}. Kan du dele flere detaljer? 🎉',
+	},
+	sr: {
+		youreInvited: '✨ Pozivamo te ✨',
+		birthday: 'Rođendan',
+		subtitle: 'Pridruži nam se za magično veče proslave 🎂💖',
+		partyCountdown: 'Odbrojavanje do žurke',
+		days: 'Dana',
+		hours: 'Sati',
+		minutes: 'Minuta',
+		seconds: 'Sekundi',
+		when: 'Kada',
+		where: 'Gde',
+		casualParty: 'Ležerna & Slatka žurka 🎀',
+		findYourWay: 'Pronađi put do nas',
+		getDirections: 'Dobij putanje do žurke!',
+		googleMaps: 'Google Maps',
+		waze: 'Waze',
+		saveTheDate: 'Sačuvaj datum 📅💖',
+		addToCalendar: 'Dodaj ovu žurku u kalendar i pošalji poruku domaćinu!',
+		googleCalendar: 'Google Kalendar',
+		appleCalendar: 'Apple Kalendar',
+		messageHost: 'Pošalji poruku domaćinu 💬',
+		cantWait: 'Jedva čekamo da slavimo sa tobom! 🎉💕',
+		magical: 'Hajde da učinimo ovaj rođendan potpuno magičnim! ✨🎂',
+		oslo: '📍 Oslo, Norveška',
+		whatsappMessage:
+			'Zdravo! 💕 Zanima me da dođem na Marijin rođendan {date} u {time}. Možeš li da podeliš više detalja? 🎉',
+	},
+}
+
 export default function BirthdayParty() {
+	const [language, setLanguage] = useState<Language>('en')
 	const [windowDimensions, setWindowDimensions] = useState({ width: 0, height: 0 })
 	const [timeLeft, setTimeLeft] = useState({
 		days: 0,
@@ -16,6 +103,8 @@ export default function BirthdayParty() {
 		minutes: 0,
 		seconds: 0,
 	})
+
+	const t = translations[language]
 
 	useEffect(() => {
 		const updateWindowDimensions = () => {
@@ -54,9 +143,35 @@ export default function BirthdayParty() {
 	const partyDetails = {
 		name: 'Marija',
 		date: 'Friday, August 15th',
+		dateNo: 'Fredag, 15. august',
+		dateSr: 'Petak, 15. avgust',
 		time: '7:00 PM',
+		timeNo: '19:00',
+		timeSr: '19:00',
 		address: 'Professor Dahls gate 7B, 0355 Oslo',
 		phone: '+47 939 40 056',
+	}
+
+	const getLocalizedDate = () => {
+		switch (language) {
+			case 'no':
+				return partyDetails.dateNo
+			case 'sr':
+				return partyDetails.dateSr
+			default:
+				return partyDetails.date
+		}
+	}
+
+	const getLocalizedTime = () => {
+		switch (language) {
+			case 'no':
+				return partyDetails.timeNo
+			case 'sr':
+				return partyDetails.timeSr
+			default:
+				return partyDetails.time
+		}
 	}
 
 	const handleGoogleCalendar = () => {
@@ -93,7 +208,7 @@ END:VCALENDAR`
 	}
 
 	const handleWhatsApp = () => {
-		const message = `Hi! 💕 I'm interested in attending Marija's birthday party on ${partyDetails.date} at ${partyDetails.time}. Could you share more details? 🎉`
+		const message = t.whatsappMessage.replace('{date}', getLocalizedDate()).replace('{time}', getLocalizedTime())
 		const url = `https://wa.me/4793940056?text=${encodeURIComponent(message)}`
 		window.open(url, '_blank')
 	}
@@ -108,24 +223,33 @@ END:VCALENDAR`
 		window.open(url, '_blank')
 	}
 
+	// Updated motion variants using correct Motion API
 	const containerVariants = {
-		hidden: { opacity: 0 },
+		hidden: {
+			opacity: 0,
+		},
 		visible: {
 			opacity: 1,
 			transition: {
 				staggerChildren: 0.2,
+				delayChildren: 0.1,
 			},
 		},
 	}
 
 	const itemVariants = {
-		hidden: { y: 30, opacity: 0 },
+		hidden: {
+			y: 30,
+			opacity: 0,
+		},
 		visible: {
 			y: 0,
 			opacity: 1,
 			transition: {
+				type: 'spring',
+				stiffness: 100,
+				damping: 15,
 				duration: 0.6,
-				ease: 'easeOut',
 			},
 		},
 	}
@@ -136,6 +260,7 @@ END:VCALENDAR`
 			transition: {
 				duration: 2.5,
 				repeat: Infinity,
+				repeatType: 'reverse' as const,
 				ease: 'easeInOut',
 			},
 		},
@@ -147,8 +272,31 @@ END:VCALENDAR`
 			transition: {
 				duration: 2,
 				repeat: Infinity,
+				repeatType: 'reverse' as const,
 				ease: 'easeInOut',
 			},
+		},
+	}
+
+	const languageButtonVariants = {
+		hover: {
+			scale: 1.05,
+			transition: { type: 'spring', stiffness: 400, damping: 10 },
+		},
+		tap: {
+			scale: 0.95,
+			transition: { type: 'spring', stiffness: 400, damping: 10 },
+		},
+	}
+
+	const buttonVariants = {
+		hover: {
+			scale: 1.05,
+			transition: { type: 'spring', stiffness: 300, damping: 20 },
+		},
+		tap: {
+			scale: 0.95,
+			transition: { type: 'spring', stiffness: 300, damping: 20 },
 		},
 	}
 
@@ -157,6 +305,31 @@ END:VCALENDAR`
 			{/* Gradient Background */}
 			<div className='fixed inset-0 bg-gradient-to-br from-pink-300/20 via-rose-200/30 to-pink-400/20' />
 			<div className='fixed inset-0 bg-gradient-to-tl from-pink-200/10 via-transparent to-rose-300/10' />
+
+			{/* Language Switcher */}
+			<motion.div
+				className='fixed top-6 right-6 z-50 flex gap-2'
+				initial={{ opacity: 0, y: -20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ delay: 0.5, duration: 0.6 }}
+			>
+				{(['en', 'no', 'sr'] as Language[]).map((lang) => (
+					<motion.button
+						key={lang}
+						variants={languageButtonVariants}
+						whileHover='hover'
+						whileTap='tap'
+						onClick={() => setLanguage(lang)}
+						className={`px-4 py-2 rounded-full font-semibold text-sm transition-colors ${
+							language === lang
+								? 'bg-pink-500 text-white shadow-lg'
+								: 'bg-white/80 backdrop-blur-sm text-pink-700 hover:bg-pink-100'
+						}`}
+					>
+						{lang === 'en' ? '🇺🇸 EN' : lang === 'no' ? '🇳🇴 NO' : '🇷🇸 SR'}
+					</motion.button>
+				))}
+			</motion.div>
 
 			{/* Continuous Confetti */}
 			<Confetti
@@ -183,39 +356,46 @@ END:VCALENDAR`
 					<motion.div
 						className='inline-block mb-8'
 						variants={floatingVariants}
-						transition={{
-							duration: 2.5,
-							repeat: Infinity,
-							ease: [0.42, 0, 0.58, 1], // cubic-bezier for easeInOut
-						}}
 						animate='animate'
 					>
 						<Badge className='border-pink-300 bg-white/80 backdrop-blur-sm text-pink-700 px-6 py-3 text-sm font-semibold rounded-full shadow-lg'>
-							✨ You're Invited ✨
+							{t.youreInvited}
 						</Badge>
 					</motion.div>
 
-					<motion.h1
-						className='text-6xl md:text-8xl font-bold tracking-tight mb-8'
-						variants={itemVariants}
-					>
-						<span className='bg-gradient-to-r from-pink-600 via-rose-500 to-pink-700 bg-clip-text text-transparent'>
-							Marija&apos;s
-						</span>
-						<br />
-						<span className='text-slate-700 flex items-center justify-center gap-6'>
-							<Heart className='h-16 w-16 md:h-20 md:w-20 text-pink-500 fill-pink-500' />
-							Birthday
-							<Heart className='h-16 w-16 md:h-20 md:w-20 text-pink-500 fill-pink-500' />
-						</span>
-					</motion.h1>
+					<AnimatePresence mode='wait'>
+						<motion.h1
+							key={language}
+							className='text-6xl md:text-8xl font-bold tracking-tight mb-8'
+							variants={itemVariants}
+							initial='hidden'
+							animate='visible'
+							exit='hidden'
+						>
+							<span className='bg-gradient-to-r from-pink-600 via-rose-500 to-pink-700 bg-clip-text text-transparent'>
+								Marija&apos;s
+							</span>
+							<br />
+							<span className='text-slate-700 flex items-center justify-center gap-6'>
+								<Heart className='h-16 w-16 md:h-20 md:w-20 text-pink-500 fill-pink-500' />
+								{t.birthday}
+								<Heart className='h-16 w-16 md:h-20 md:w-20 text-pink-500 fill-pink-500' />
+							</span>
+						</motion.h1>
+					</AnimatePresence>
 
-					<motion.p
-						className='text-xl md:text-2xl text-slate-600 font-medium max-w-2xl mx-auto'
-						variants={itemVariants}
-					>
-						Join us for a magical evening of celebration 🎂💖
-					</motion.p>
+					<AnimatePresence mode='wait'>
+						<motion.p
+							key={`subtitle-${language}`}
+							className='text-xl md:text-2xl text-slate-600 font-medium max-w-2xl mx-auto'
+							variants={itemVariants}
+							initial='hidden'
+							animate='visible'
+							exit='hidden'
+						>
+							{t.subtitle}
+						</motion.p>
+					</AnimatePresence>
 				</motion.div>
 
 				{/* Countdown Timer */}
@@ -227,7 +407,7 @@ END:VCALENDAR`
 						<CardContent className='p-8 text-center'>
 							<h2 className='text-2xl font-bold text-slate-700 mb-6 flex items-center justify-center gap-3'>
 								<Clock className='h-6 w-6 text-pink-500' />
-								Party Countdown
+								{t.partyCountdown}
 								<Clock className='h-6 w-6 text-pink-500' />
 							</h2>
 
@@ -241,7 +421,7 @@ END:VCALENDAR`
 										{timeLeft.days}
 									</div>
 									<div className='text-sm font-semibold text-slate-600 uppercase tracking-wider'>
-										Days
+										{t.days}
 									</div>
 								</motion.div>
 
@@ -255,7 +435,7 @@ END:VCALENDAR`
 										{timeLeft.hours}
 									</div>
 									<div className='text-sm font-semibold text-slate-600 uppercase tracking-wider'>
-										Hours
+										{t.hours}
 									</div>
 								</motion.div>
 
@@ -269,7 +449,7 @@ END:VCALENDAR`
 										{timeLeft.minutes}
 									</div>
 									<div className='text-sm font-semibold text-slate-600 uppercase tracking-wider'>
-										Minutes
+										{t.minutes}
 									</div>
 								</motion.div>
 
@@ -283,7 +463,7 @@ END:VCALENDAR`
 										{timeLeft.seconds}
 									</div>
 									<div className='text-sm font-semibold text-slate-600 uppercase tracking-wider'>
-										Seconds
+										{t.seconds}
 									</div>
 								</motion.div>
 							</div>
@@ -303,35 +483,49 @@ END:VCALENDAR`
 								<motion.div
 									className='text-center md:text-left'
 									whileHover={{ scale: 1.02 }}
-									transition={{ duration: 0.2 }}
+									transition={{ type: 'spring', stiffness: 300, damping: 20 }}
 								>
 									<div className='flex items-center justify-center md:justify-start gap-4 mb-6'>
 										<div className='p-4 rounded-2xl bg-gradient-to-br from-pink-200 to-pink-300 shadow-lg'>
 											<Calendar className='h-6 w-6 text-pink-700' />
 										</div>
 										<h3 className='text-lg font-bold text-pink-600 uppercase tracking-wider'>
-											When
+											{t.when}
 										</h3>
 									</div>
-									<p className='text-3xl font-bold text-slate-800 mb-3'>{partyDetails.date}</p>
-									<div className='flex items-center justify-center md:justify-start gap-3'>
-										<Clock className='h-5 w-5 text-pink-500' />
-										<p className='text-xl text-slate-600 font-semibold'>{partyDetails.time}</p>
-									</div>
+									<AnimatePresence mode='wait'>
+										<motion.div
+											key={`date-${language}`}
+											initial={{ opacity: 0, y: 10 }}
+											animate={{ opacity: 1, y: 0 }}
+											exit={{ opacity: 0, y: -10 }}
+											transition={{ duration: 0.3 }}
+										>
+											<p className='text-3xl font-bold text-slate-800 mb-3'>
+												{getLocalizedDate()}
+											</p>
+											<div className='flex items-center justify-center md:justify-start gap-3'>
+												<Clock className='h-5 w-5 text-pink-500' />
+												<p className='text-xl text-slate-600 font-semibold'>
+													{getLocalizedTime()}
+												</p>
+											</div>
+										</motion.div>
+									</AnimatePresence>
 								</motion.div>
 
 								{/* Location */}
 								<motion.div
 									className='text-center md:text-left'
 									whileHover={{ scale: 1.02 }}
-									transition={{ duration: 0.2 }}
+									transition={{ type: 'spring', stiffness: 300, damping: 20 }}
 								>
 									<div className='flex items-center justify-center md:justify-start gap-4 mb-6'>
 										<div className='p-4 rounded-2xl bg-gradient-to-br from-rose-200 to-rose-300 shadow-lg'>
 											<MapPin className='h-6 w-6 text-rose-700' />
 										</div>
 										<h3 className='text-lg font-bold text-rose-600 uppercase tracking-wider'>
-											Where
+											{t.where}
 										</h3>
 									</div>
 									<p className='text-xl text-slate-800 leading-relaxed font-semibold'>
@@ -348,7 +542,18 @@ END:VCALENDAR`
 							>
 								<div className='inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-pink-100 to-rose-100 shadow-lg border border-pink-200'>
 									<div className='w-3 h-3 rounded-full bg-pink-500 animate-pulse' />
-									<span className='text-lg font-bold text-slate-700'>Casual & Cute Party 🎀</span>
+									<AnimatePresence mode='wait'>
+										<motion.span
+											key={`badge-${language}`}
+											className='text-lg font-bold text-slate-700'
+											initial={{ opacity: 0 }}
+											animate={{ opacity: 1 }}
+											exit={{ opacity: 0 }}
+											transition={{ duration: 0.3 }}
+										>
+											{t.casualParty}
+										</motion.span>
+									</AnimatePresence>
 									<div className='w-3 h-3 rounded-full bg-pink-500 animate-pulse' />
 								</div>
 							</motion.div>
@@ -356,7 +561,7 @@ END:VCALENDAR`
 					</Card>
 				</motion.div>
 
-				{/* Map Section - Now comes before Action Buttons */}
+				{/* Map Section */}
 				<motion.div
 					className='mb-16'
 					variants={itemVariants}
@@ -365,40 +570,62 @@ END:VCALENDAR`
 						<CardContent className='p-0'>
 							{/* Map Header */}
 							<div className='p-8 text-center bg-gradient-to-r from-pink-50 to-rose-50'>
-								<h2 className='text-3xl font-bold text-slate-700 mb-4 flex items-center justify-center gap-4'>
-									<MapPin className='h-8 w-8 text-pink-500' />
-									Find Your Way Here
-									<MapPin className='h-8 w-8 text-pink-500' />
-								</h2>
-								<p className='text-lg text-slate-600 font-medium'>Get directions to the party!</p>
+								<AnimatePresence mode='wait'>
+									<motion.h2
+										key={`map-title-${language}`}
+										className='text-3xl font-bold text-slate-700 mb-4 flex items-center justify-center gap-4'
+										initial={{ opacity: 0, y: 10 }}
+										animate={{ opacity: 1, y: 0 }}
+										exit={{ opacity: 0, y: -10 }}
+										transition={{ duration: 0.3 }}
+									>
+										<MapPin className='h-8 w-8 text-pink-500' />
+										{t.findYourWay}
+										<MapPin className='h-8 w-8 text-pink-500' />
+									</motion.h2>
+								</AnimatePresence>
+								<AnimatePresence mode='wait'>
+									<motion.p
+										key={`map-subtitle-${language}`}
+										className='text-lg text-slate-600 font-medium'
+										initial={{ opacity: 0 }}
+										animate={{ opacity: 1 }}
+										exit={{ opacity: 0 }}
+										transition={{ duration: 0.3 }}
+									>
+										{t.getDirections}
+									</motion.p>
+								</AnimatePresence>
 							</div>
 
 							{/* Navigation Buttons */}
 							<div className='p-8 pt-4 grid grid-cols-2 gap-4'>
 								<motion.div
-									whileHover={{ scale: 1.05 }}
-									whileTap={{ scale: 0.95 }}
+									variants={buttonVariants}
+									whileHover='hover'
+									whileTap='tap'
 								>
 									<Button
 										onClick={handleGoogleMaps}
 										className='w-full h-14 bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white shadow-lg border-0 group rounded-xl font-bold text-lg'
 									>
 										<Navigation className='h-5 w-5 mr-3' />
-										<span>Google Maps</span>
+										<span>{t.googleMaps}</span>
 										<ArrowUpRight className='h-4 w-4 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform' />
 									</Button>
 								</motion.div>
 
 								<motion.div
-									whileHover={{ scale: 1.05 }}
-									whileTap={{ scale: 0.95 }}
+									variants={buttonVariants}
+									whileHover='hover'
+									whileTap='tap'
 								>
 									<Button
 										onClick={handleWaze}
 										className='w-full h-14 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white shadow-lg border-0 group rounded-xl font-bold text-lg'
 									>
 										<Navigation className='h-5 w-5 mr-3' />
-										<span>Waze</span>
+										<span>{t.waze}</span>
 										<ArrowUpRight className='h-4 w-4 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform' />
 									</Button>
 								</motion.div>
@@ -421,10 +648,21 @@ END:VCALENDAR`
 									className='absolute top-6 left-6'
 									initial={{ scale: 0 }}
 									animate={{ scale: 1 }}
-									transition={{ delay: 1, duration: 0.5 }}
+									transition={{ delay: 1, duration: 0.5, type: 'spring', stiffness: 200 }}
 								>
 									<div className='px-6 py-3 rounded-full bg-white/95 backdrop-blur-sm shadow-xl border border-pink-200'>
-										<span className='text-sm font-bold text-slate-700'>📍 Oslo, Norway</span>
+										<AnimatePresence mode='wait'>
+											<motion.span
+												key={`oslo-${language}`}
+												className='text-sm font-bold text-slate-700'
+												initial={{ opacity: 0 }}
+												animate={{ opacity: 1 }}
+												exit={{ opacity: 0 }}
+												transition={{ duration: 0.3 }}
+											>
+												{t.oslo}
+											</motion.span>
+										</AnimatePresence>
 									</div>
 								</motion.div>
 							</div>
@@ -432,7 +670,7 @@ END:VCALENDAR`
 					</Card>
 				</motion.div>
 
-				{/* Action Buttons - Now comes after Map */}
+				{/* Action Buttons */}
 				<motion.div
 					className='mb-16'
 					variants={itemVariants}
@@ -440,52 +678,75 @@ END:VCALENDAR`
 					<Card className='border-0 bg-white/85 backdrop-blur-xl shadow-xl shadow-pink-200/20 rounded-3xl overflow-hidden'>
 						<CardContent className='p-8'>
 							<div className='text-center mb-8'>
-								<h2 className='text-3xl font-bold text-slate-700 mb-4'>Save the Date 📅💖</h2>
-								<p className='text-lg text-slate-600 font-medium'>
-									Add this party to your calendar and message the host!
-								</p>
+								<AnimatePresence mode='wait'>
+									<motion.h2
+										key={`save-title-${language}`}
+										className='text-3xl font-bold text-slate-700 mb-4'
+										initial={{ opacity: 0, y: 10 }}
+										animate={{ opacity: 1, y: 0 }}
+										exit={{ opacity: 0, y: -10 }}
+										transition={{ duration: 0.3 }}
+									>
+										{t.saveTheDate}
+									</motion.h2>
+								</AnimatePresence>
+								<AnimatePresence mode='wait'>
+									<motion.p
+										key={`save-subtitle-${language}`}
+										className='text-lg text-slate-600 font-medium'
+										initial={{ opacity: 0 }}
+										animate={{ opacity: 1 }}
+										exit={{ opacity: 0 }}
+										transition={{ duration: 0.3 }}
+									>
+										{t.addToCalendar}
+									</motion.p>
+								</AnimatePresence>
 							</div>
 
 							<div className='grid md:grid-cols-2 gap-4 mb-6'>
 								<motion.div
-									whileHover={{ scale: 1.05 }}
-									whileTap={{ scale: 0.95 }}
+									variants={buttonVariants}
+									whileHover='hover'
+									whileTap='tap'
 								>
 									<Button
 										onClick={handleGoogleCalendar}
 										className='w-full h-16 bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white shadow-xl border-0 group rounded-2xl font-bold text-lg cursor-pointer'
 									>
 										<Calendar className='h-6 w-6 mr-3' />
-										<span>Google Calendar</span>
+										<span>{t.googleCalendar}</span>
 										<ArrowUpRight className='h-5 w-5 ml-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform' />
 									</Button>
 								</motion.div>
 
 								<motion.div
-									whileHover={{ scale: 1.05 }}
-									whileTap={{ scale: 0.95 }}
+									variants={buttonVariants}
+									whileHover='hover'
+									whileTap='tap'
 								>
 									<Button
 										onClick={handleAppleCalendar}
 										className='w-full h-16 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white shadow-xl border-0 group rounded-2xl font-bold text-lg cursor-pointer'
 									>
 										<Calendar className='h-6 w-6 mr-3' />
-										<span>Apple Calendar</span>
+										<span>{t.appleCalendar}</span>
 										<ArrowUpRight className='h-5 w-5 ml-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform' />
 									</Button>
 								</motion.div>
 							</div>
 
 							<motion.div
-								whileHover={{ scale: 1.02 }}
-								whileTap={{ scale: 0.98 }}
+								variants={buttonVariants}
+								whileHover='hover'
+								whileTap='tap'
 							>
 								<Button
 									onClick={handleWhatsApp}
 									className='w-full h-16 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-xl border-0 group rounded-2xl font-bold text-lg mb-6 cursor-pointer'
 								>
 									<MessageCircle className='h-6 w-6 mr-3' />
-									<span>Message Host 💬</span>
+									<span>{t.messageHost}</span>
 									<ArrowUpRight className='h-5 w-5 ml-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform' />
 								</Button>
 							</motion.div>
@@ -498,14 +759,21 @@ END:VCALENDAR`
 					className='text-center'
 					variants={itemVariants}
 					whileHover={{ scale: 1.02 }}
+					transition={{ type: 'spring', stiffness: 300, damping: 20 }}
 				>
 					<div className='inline-block p-8 rounded-3xl bg-white/80 backdrop-blur-sm shadow-xl border border-pink-200'>
-						<p className='text-2xl font-bold text-slate-700 mb-3'>
-							Can&apos;t wait to celebrate with you! 🎉💕
-						</p>
-						<p className='text-lg text-slate-600 font-medium'>
-							Let&apos;s make this birthday absolutely magical! ✨🎂
-						</p>
+						<AnimatePresence mode='wait'>
+							<motion.div
+								key={`footer-${language}`}
+								initial={{ opacity: 0, y: 10 }}
+								animate={{ opacity: 1, y: 0 }}
+								exit={{ opacity: 0, y: -10 }}
+								transition={{ duration: 0.3 }}
+							>
+								<p className='text-2xl font-bold text-slate-700 mb-3'>{t.cantWait}</p>
+								<p className='text-lg text-slate-600 font-medium'>{t.magical}</p>
+							</motion.div>
+						</AnimatePresence>
 					</div>
 				</motion.div>
 			</motion.div>
