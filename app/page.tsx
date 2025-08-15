@@ -626,10 +626,10 @@ END:VCALENDAR`
 							</div>
 
 							{/* Party Info Grid */}
-							<div className='grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8'>
+							<div className='grid sm:grid-cols-2 lg:grid-cols-6 gap-6 mb-8'>
 								{/* Dress Code */}
 								<motion.div
-									className='text-center p-4 rounded-2xl bg-gradient-to-br from-pink-50 to-rose-50 border border-pink-200'
+									className='text-center p-4 rounded-2xl bg-gradient-to-br from-pink-50 to-rose-50 border border-pink-200 lg:col-span-2'
 									whileHover={{ scale: 1.05 }}
 									transition={{ type: 'spring', stiffness: 300, damping: 20 }}
 								>
@@ -641,7 +641,7 @@ END:VCALENDAR`
 
 								{/* Drinks */}
 								<motion.div
-									className='text-center p-4 rounded-2xl bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-200'
+									className='text-center p-4 rounded-2xl bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-200 lg:col-span-2'
 									whileHover={{ scale: 1.05 }}
 									transition={{ type: 'spring', stiffness: 300, damping: 20 }}
 								>
@@ -665,7 +665,7 @@ END:VCALENDAR`
 							</div>
 
 							{/* Style Badge */}
-							<motion.div
+							{/* <motion.div
 								className='flex justify-center pt-8 border-t border-pink-200'
 								variants={floatingVariants}
 								animate='animate'
@@ -686,7 +686,7 @@ END:VCALENDAR`
 									</AnimatePresence>
 									<div className='w-3 h-3 rounded-full bg-pink-500 animate-pulse' />
 								</div>
-							</motion.div>
+							</motion.div> */}
 						</CardContent>
 					</Card>
 				</motion.div>
