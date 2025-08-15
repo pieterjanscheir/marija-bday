@@ -115,7 +115,7 @@ export default function BirthdayParty() {
 		window.addEventListener('resize', updateWindowDimensions)
 
 		// Countdown timer
-		const partyDate = new Date('2025-08-15T19:00:00').getTime()
+		const partyDate = new Date('2025-08-15T19:30:00').getTime()
 
 		const updateCountdown = () => {
 			const now = new Date().getTime()
@@ -411,7 +411,7 @@ END:VCALENDAR`
 								<Clock className='h-6 w-6 text-pink-500' />
 							</h2>
 
-							<div className='grid grid-cols-4 gap-4 max-w-2xl mx-auto'>
+							<div className='grid sm:grid-cols-4 gap-4 max-w-2xl mx-auto'>
 								<motion.div
 									className='bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl p-6 shadow-lg'
 									variants={pulseVariants}
@@ -599,7 +599,7 @@ END:VCALENDAR`
 							</div>
 
 							{/* Navigation Buttons */}
-							<div className='p-8 pt-4 grid grid-cols-2 gap-4'>
+							<div className='p-8 pt-4 grid sm:grid-cols-2 gap-4'>
 								<motion.div
 									variants={buttonVariants}
 									whileHover='hover'
