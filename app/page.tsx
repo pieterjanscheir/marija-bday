@@ -1,7 +1,6 @@
 'use client'
 
-import { Calendar, MessageCircle, Clock, ArrowUpRight, Heart, Music, Users, Trophy, Sparkles } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Calendar, Clock, Heart, Music, Users, Trophy, Sparkles } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -37,7 +36,7 @@ const translations = {
 		playlistSubtitle: 'The soundtrack to our night - feel free to keep adding songs!',
 		gratitude: 'Thanks for making it such a fun night! 🎉',
 		magical: 'You all made this birthday really special ✨',
-		oslo: '📍 Oslo, Norway',
+		location: '📍 Oslo, Norway',
 		partyMemory: 'Party Memory',
 		goodTimes: 'Good times captured',
 	},
@@ -57,7 +56,7 @@ const translations = {
 		teamGame: 'Spillkveld Vinnere',
 		teamGameInfo: 'Gratulerer til vinnerlaget! (Nord-Korea teller helt klart som ett ord 😉)',
 		balloonArch: 'Oppsettet',
-		balloonArchInfo: 'Ballongbue, god mat og drikke 🎈',
+		balloonArchInfo: 'Ballongbuer, god mat og drikke 🎈',
 		nightOut: 'Amsterdam',
 		nightOutInfo: 'Avsluttet kvelden med dans på Amsterdam nattklubb 💃',
 		casualParty: 'Perfekt Kveld 🎀',
@@ -66,7 +65,7 @@ const translations = {
 		playlistSubtitle: 'Lydbildet til kvelden vår - bare å legge til flere sanger!',
 		gratitude: 'Takk for at dere gjorde det til en så fin kveld! 🎉',
 		magical: 'Dere gjorde denne bursdagen virkelig spesiell ✨',
-		oslo: '📍 Oslo, Norge',
+		location: '📍 Oslo, Norge',
 		partyMemory: 'Fest Minne',
 		goodTimes: 'Fine øyeblikk fanget',
 	},
@@ -95,7 +94,7 @@ const translations = {
 		playlistSubtitle: 'Soundtrack našeg večera - slobodno dodajte još pesama!',
 		gratitude: 'Hvala što ste učinili da bude tako zabavno veče! 🎉',
 		magical: 'Svi ste učinili ovaj rođendan zaista posebnim ✨',
-		oslo: '📍 Oslo, Norveška',
+		location: '📍 Oslo, Norveška',
 		partyMemory: 'Sećanje Sa Žurke',
 		goodTimes: 'Lepi trenuci uhvaćeni',
 	},
@@ -124,7 +123,7 @@ const translations = {
 		playlistSubtitle: 'De soundtrack van onze avond - voeg gerust meer nummers toe!',
 		gratitude: "Bedankt dat jullie er zo'n leuke avond van hebben gemaakt! 🎉",
 		magical: 'Jullie hebben deze verjaardag echt speciaal gemaakt ✨',
-		oslo: '📍 Oslo, Noorwegen',
+		location: '📍 Oslo, Noorwegen',
 		partyMemory: 'Feest Herinnering',
 		goodTimes: 'Goede tijden vastgelegd',
 	},
@@ -501,7 +500,7 @@ export default function BirthdayPartyThankYou() {
 										</h3>
 									</div>
 									<p className='text-xl text-slate-800 leading-relaxed font-semibold mb-4'>
-										{t.oslo}
+										{t.location}
 									</p>
 									<div className='text-sm text-slate-600 font-medium'>
 										<span className='font-bold text-rose-600'>{t.gratitude}</span>
