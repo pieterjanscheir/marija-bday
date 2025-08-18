@@ -120,7 +120,7 @@
 		@apply bg-background text-foreground;
 	}
 }
-/* Enhanced glassmorphism */
+/* Enhanced glass effect */
 .glass-modern {
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
