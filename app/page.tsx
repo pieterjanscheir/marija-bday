@@ -3,7 +3,7 @@
 import { Calendar, Clock, Heart, Music, Users, Trophy, Sparkles } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import Confetti from 'react-confetti'
 import Image from 'next/image'
@@ -214,7 +214,7 @@ export default function BirthdayPartyThankYou() {
 	}
 
 	// Motion variants
-	const containerVariants = {
+	const containerVariants: Variants = {
 		hidden: { opacity: 0 },
 		visible: {
 			opacity: 1,
@@ -225,7 +225,7 @@ export default function BirthdayPartyThankYou() {
 		},
 	}
 
-	const itemVariants = {
+	const itemVariants: Variants = {
 		hidden: { y: 30, opacity: 0 },
 		visible: {
 			y: 0,
@@ -239,31 +239,31 @@ export default function BirthdayPartyThankYou() {
 		},
 	}
 
-	const floatingVariants = {
+	const floatingVariants: Variants = {
 		animate: {
 			y: [-3, 3, -3],
 			transition: {
 				duration: 2.5,
 				repeat: Infinity,
-				repeatType: 'reverse' as const,
+				repeatType: 'reverse',
 				ease: 'easeInOut',
 			},
 		},
 	}
 
-	const pulseVariants = {
+	const pulseVariants: Variants = {
 		animate: {
 			scale: [1, 1.05, 1],
 			transition: {
 				duration: 2,
 				repeat: Infinity,
-				repeatType: 'reverse' as const,
+				repeatType: 'reverse',
 				ease: 'easeInOut',
 			},
 		},
 	}
 
-	const languageButtonVariants = {
+	const languageButtonVariants: Variants = {
 		hover: {
 			scale: 1.05,
 			transition: { type: 'spring', stiffness: 400, damping: 10 },
