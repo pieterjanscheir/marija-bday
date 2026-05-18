@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Marija's Birthday — Thank You
 
-## Getting Started
+A personal thank-you page for Marija's birthday celebration on **15 August 2025** in Oslo. Friends can revisit the evening, see how long ago the party was, and listen to the shared playlist.
 
-First, run the development server:
+## Features
+
+- **Multilingual** — English, Norwegian, Serbian, and Dutch
+- **Live timer** — counts days, hours, minutes, and seconds since the party (15 Aug 2025, 19:30)
+- **Party recap** — highlights from the evening (games, setup, Amsterdam night out)
+- **Spotify playlist** — embedded collaborative party playlist
+- **Animations** — confetti, Framer Motion transitions, and a responsive layout
+
+## Tech stack
+
+- [Next.js](https://nextjs.org) 16 (App Router, Turbopack in dev)
+- [React](https://react.dev) 19
+- [TypeScript](https://www.typescriptlang.org)
+- [Tailwind CSS](https://tailwindcss.com) 4
+- [Framer Motion](https://www.framer.com/motion/) — page animations
+- [shadcn/ui](https://ui.shadcn.com) — Card, Badge, Button components
+- [react-confetti](https://www.npmjs.com/package/react-confetti)
+
+## Getting started
+
+Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Run the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Command       | Description              |
+| ------------- | ------------------------ |
+| `pnpm dev`    | Start dev server (Turbopack) |
+| `pnpm build`  | Production build         |
+| `pnpm start`  | Serve production build   |
+| `pnpm lint`   | Run ESLint               |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/
+  layout.tsx    # Root layout and metadata
+  page.tsx      # Main thank-you page (client component)
+  globals.css   # Global styles
+components/ui/  # shadcn/ui components
+public/         # Static assets (party photo)
+```
 
-## Deploy on Vercel
+## Customization
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Copy & translations** — edit the `translations` object in `app/page.tsx`
+- **Party date/time** — update `partyDate` in the `useEffect` hook and `partyDetails` in the same file
+- **Playlist** — change the Spotify embed URL in the playlist section
+- **Photo** — replace `public/image.jpeg`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy
+
+Deploy to [Vercel](https://vercel.com) or any platform that supports Next.js. Build with `pnpm build` and serve with `pnpm start`.
